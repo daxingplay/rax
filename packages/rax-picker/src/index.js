@@ -9,17 +9,17 @@ class Picker extends Component {
 
   constructor(props) {
     super(props);
-    let pickerData = this.getPickerData();
+    let pickerData = this.getPickerData(props);
     this.state = {
       selectedLabel: pickerData.selectedLabel,
     };
   }
 
-  getPickerData = () => {
+  getPickerData = (props) => {
     let {
       children,
       selectedValue
-    } = this.props;
+    } = props;
     let pickerItems = [],
       pickerLabelList = [],
       items = [],
@@ -85,6 +85,15 @@ class Picker extends Component {
       const pickerData = this.getPickerData();
       let {value} = this.getPickerDataByIndex(webIndex, pickerData);
       onValueChange && onValueChange(value, pickerData.items);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedValue !== this.props.selectedValue) {
+      let pickerData = this.getPickerData(nextProps);
+      this.setState({
+        selectedLabel: pickerData.selectedLabel,
+      });
     }
   }
 
